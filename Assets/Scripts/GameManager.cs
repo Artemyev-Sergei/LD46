@@ -64,5 +64,6 @@ public class GameManager : GenericUnitySingleton<GameManager>, IEventBattleFinis
         }
 
         this.gameState = this.BattleController.ProcessTurn(this.gameState);
+        UIManager.Instance.SetWhoseTurnText(this.gameState);
     }
 }

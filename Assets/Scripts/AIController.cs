@@ -27,7 +27,7 @@ public class AIController : SquadController
         }
         else
         {
-            this.squadsMoved = 4; // No squad selected -> all squads defeated, finish turn.
+            this.squadsMoved = this.maxSquadsMoves; // No squad selected -> all squads defeated, finish turn.
         }
     }
 

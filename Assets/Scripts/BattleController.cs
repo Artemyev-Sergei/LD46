@@ -14,6 +14,9 @@ public class BattleController : MonoBehaviour, IEventSquadDefeatedListener, IEve
 
     private AttackDirectionArrow attackDirectionArrow;
 
+    private int battlesWonCount = 0;
+    private int battlesLostCount = 0;
+
     private void Awake()
     {
         this.attackDirectionArrow = GetComponentInChildren<AttackDirectionArrow>(true);
@@ -60,7 +63,7 @@ public class BattleController : MonoBehaviour, IEventSquadDefeatedListener, IEve
 
             if (squad.GetSquadType() == ESquadType.King || this.playerSquads.Count <= 0)
             {
-                EventBattleFinished.Dispatch(false);
+                LoseBattle();
             }
         }
 
@@ -70,15 +73,29 @@ public class BattleController : MonoBehaviour, IEventSquadDefeatedListener, IEve
 
             if (this.aiSquads.Count <= 0)
             {
-                EventBattleFinished.Dispatch(true);
+                WinBattle();
             }
         }
     }
 
     public void OnSquadCapturedFlag(Squad squad)
     {
-        EventBattleFinished.Dispatch(true);
+        WinBattle();
         squad.GetComponent<SquadCollisions>().EventSquadCapturedFlag.RemoveListener(this);
+    }
+
+    private void WinBattle()
+    {
+        this.battlesWonCount++;
+        EventBattleFinished.Dispatch(true);
+        UIManager.Instance.SetBattlesWonText(this.battlesWonCount);
+    }
+
+    private void LoseBattle()
+    {
+        this.battlesLostCount++;
+        EventBattleFinished.Dispatch(false);
+        UIManager.Instance.SetBattlesLostText(this.battlesLostCount);
     }
 
     public EGameState ProcessTurn(EGameState whoseTurn)

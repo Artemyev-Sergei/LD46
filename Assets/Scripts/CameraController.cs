@@ -66,6 +66,11 @@ public class CameraController : GenericUnitySingleton<CameraController>
                 Input.GetAxis("Mouse Y") * dragSpeed * Time.deltaTime,
                 0);
         }
+
+        this.dragAndZoomDeltaThisFrame += new Vector3(
+            Input.GetAxis("Horizontal") * dragSpeed * Time.deltaTime,
+            Input.GetAxis("Vertical") * dragSpeed * Time.deltaTime,
+            0);
     }
 
     private void ApplyCameraRestrictions()
